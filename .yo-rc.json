@@ -1,0 +1,51 @@
+{
+  "generator-jhipster": {
+    "applicationType": "gateway",
+    "authenticationType": "oauth2",
+    "baseName": "xunohono",
+    "buildTool": "maven",
+    "cacheProvider": "caffeine",
+    "clientFramework": "angular",
+    "clientTestFrameworks": [],
+    "clientTheme": "yeti",
+    "clientThemeVariant": "light",
+    "creationTimestamp": 1713504479995,
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "devServerPort": 4200,
+    "enableHibernateCache": true,
+    "enableSwaggerCodegen": true,
+    "enableTranslation": true,
+    "entities": [],
+    "feignClient": null,
+    "jhipsterVersion": "8.3.0",
+    "jwtSecretKey": "YjNjMzc4ZmY0ZDk0YmQ2NTYwOTgyNGUxNjk1NWJlYmEwOGJlNjAyZjFlNGI3NjEyYjIxYTljOThmMGI5MjdjYjA5ODZlYzc3MWNjZTM3YjE3Mzc3ZWE4NTJkYzkzOTM1YjFmODZlNTRhM2Y4ZjI3M2NkNzhhMWYyMjlhYjhlYTA=",
+    "languages": ["en", "al", "bn", "bg", "da", "nl", "fi", "fr", "de", "el", "hi", "pa", "si", "ta", "te", "th", "vi"],
+    "messageBroker": false,
+    "microfrontend": true,
+    "microfrontends": [
+      {
+        "baseName": "docs"
+      },
+      {
+        "baseName": "patients"
+      },
+      {
+        "baseName": "customers"
+      }
+    ],
+    "nativeLanguage": "en",
+    "packageName": "dev.risav.uno",
+    "prodDatabaseType": "postgresql",
+    "reactive": true,
+    "searchEngine": false,
+    "serverPort": "8848",
+    "serverSideOptions": ["enableSwaggerCodegen:true"],
+    "serviceDiscoveryType": "consul",
+    "skipUserManagement": true,
+    "syncUserWithIdp": true,
+    "testFrameworks": ["cucumber"],
+    "websocket": false,
+    "withAdminUi": true
+  }
+}
