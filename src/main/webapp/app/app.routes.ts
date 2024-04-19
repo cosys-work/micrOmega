@@ -6,6 +6,7 @@ import { errorRoute } from './layouts/error/error.route';
 
 import HomeComponent from './home/home.component';
 import NavbarComponent from './layouts/navbar/navbar.component';
+import LoginComponent from './login/login.component';
 import { loadEntityRoutes } from './core/microfrontend';
 
 const routes: Routes = [
@@ -28,20 +29,33 @@ const routes: Routes = [
     loadChildren: () => import('./admin/admin.routes'),
   },
   {
+    path: 'account',
+    loadChildren: () => import('./account/account.route'),
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    title: 'login.title',
+  },
+  {
     path: '',
     loadChildren: () => import(`./entities/entity.routes`),
   },
   {
-    path: 'docs',
-    loadChildren: () => loadEntityRoutes('docs'),
+    path: 'patient',
+    loadChildren: () => loadEntityRoutes('patient'),
   },
   {
-    path: 'patients',
-    loadChildren: () => loadEntityRoutes('patients'),
+    path: 'doctor',
+    loadChildren: () => loadEntityRoutes('doctor'),
   },
   {
-    path: 'customers',
-    loadChildren: () => loadEntityRoutes('customers'),
+    path: 'staff',
+    loadChildren: () => loadEntityRoutes('staff'),
+  },
+  {
+    path: 'techlead',
+    loadChildren: () => loadEntityRoutes('techlead'),
   },
   ...errorRoute,
 ];

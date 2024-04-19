@@ -15,7 +15,7 @@
 
 spring:
   application:
-    name: xunohono
+    name: huno
   autoconfigure:
     exclude:
       - org.springframework.cloud.gateway.config.GatewayMetricsAutoConfiguration
@@ -41,24 +41,17 @@ spring:
     basename: i18n/messages
   task:
     execution:
-      thread-name-prefix: xunohono-task-
+      thread-name-prefix: huno-task-
       pool:
         core-size: 1
         max-size: 50
         queue-capacity: 10000
     scheduling:
-      thread-name-prefix: xunohono-scheduling-
+      thread-name-prefix: huno-scheduling-
       pool:
         size: 20
   thymeleaf:
     mode: HTML
-  # Allow SecurityConfiguration to initialize w/o specifying an empty issuer-uri is OK
-  security:
-    oauth2:
-      client:
-        provider:
-          oidc:
-            issuer-uri: http://DO_NOT_CALL:9080/realms/jhipster
 
 server:
   port: 10344
@@ -71,9 +64,9 @@ server:
 # ===================================================================
 jhipster:
   clientApp:
-    name: 'xunohonoApp'
+    name: 'hunoApp'
   mail:
-    from: xunohono@localhost.com
+    from: huno@localhost.com
     base-url: http://127.0.0.1:8080
   logging:
     # To test json console appender
@@ -83,6 +76,14 @@ jhipster:
       host: localhost
       port: 5000
       ring-buffer-size: 512
+  security:
+    authentication:
+      jwt:
+        # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
+        base64-secret: MjdhNTMwMzk2YmExMmM2OTU4NjM4ZjA0ZWI1ODBjZDc0M2FhZWFhYzE5MzZmMGJmNDNiMWVjNDE4YmM5NjdmYmFmMzhiMGI1MjI2YTAwYmQyMWZkYWZjMWQxNzk5ZGRmOWExMGRjOTcwZTJlNjFkMWViN2Y5OWYyZTE5NTI1ZTI=
+        # Token is valid 24 hours
+        token-validity-in-seconds: 86400
+        token-validity-in-seconds-for-remember-me: 86400
 
 # ===================================================================
 # Application specific properties

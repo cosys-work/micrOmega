@@ -18,6 +18,7 @@ import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { DEBUG_INFO_ENABLED } from 'app/app.constants';
 import './config/dayjs';
 import { TranslationModule } from 'app/shared/language/translation.module';
+import FindLanguageFromKeyPipe from 'app/shared/language/find-language-from-key.pipe';
 import { httpInterceptorProviders } from './core/interceptor';
 import routes from './app.routes';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
@@ -54,6 +55,7 @@ export const appConfig: ApplicationConfig = {
     Title,
     { provide: LOCALE_ID, useValue: 'en' },
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
+    FindLanguageFromKeyPipe,
     httpInterceptorProviders,
     { provide: TitleStrategy, useClass: AppPageTitleStrategy },
     // jhipster-needle-angular-add-module JHipster will add new module here

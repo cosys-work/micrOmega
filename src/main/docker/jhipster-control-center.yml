@@ -28,7 +28,7 @@
 # - In Consul mode, the ports are in the consul.yml file.
 # - In Eureka mode, the ports are in the jhipster-registry.yml file.
 
-name: xunohono
+name: huno
 services:
   jhipster-control-center:
     image: 'jhipster/jhipster-control-center:v0.5.0'
@@ -39,11 +39,10 @@ services:
       - echo "`ip route | grep default | cut -d ' ' -f3` host.docker.internal" | tee -a /etc/hosts > /dev/null && java -jar /jhipster-control-center.jar
     environment:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
-      - SPRING_PROFILES_ACTIVE=prod,api-docs,none,oauth2
-      # For keycloak to work, you need to add '127.0.0.1 keycloak' to your hosts file
-      - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER_URI=http://keycloak:9080/realms/jhipster
-      - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_ID=jhipster-control-center
-      - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_SECRET=jhipster-control-center
+      - SPRING_PROFILES_ACTIVE=prod,api-docs,none
+      - SPRING_SECURITY_USER_PASSWORD=admin
+      # The token should have the same value than the one declared in you Spring configuration under the jhipster.security.authentication.jwt.base64-secret configuration's entry
+      - JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET=MjdhNTMwMzk2YmExMmM2OTU4NjM4ZjA0ZWI1ODBjZDc0M2FhZWFhYzE5MzZmMGJmNDNiMWVjNDE4YmM5NjdmYmFmMzhiMGI1MjI2YTAwYmQyMWZkYWZjMWQxNzk5ZGRmOWExMGRjOTcwZTJlNjFkMWViN2Y5OWYyZTE5NTI1ZTI=
       - SPRING_CLOUD_CONSUL_HOST=host.docker.internal
       - SPRING_CLOUD_CONSUL_PORT=8500
       - LOGGING_FILE_NAME=/tmp/jhipster-control-center.log

@@ -23,7 +23,7 @@ sharedDependencies = {
 
 module.exports = (config, options, targetOptions) => {
   return withModuleFederationPlugin({
-    name: 'xunohono',
+    name: 'huno',
     shared: {
       ...sharedDependencies,
       ...shareMappings(

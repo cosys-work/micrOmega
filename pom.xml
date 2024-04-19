@@ -3,12 +3,12 @@
                              https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>dev.risav.uno</groupId>
-    <artifactId>xunohono</artifactId>
+    <groupId>dev.risav.gapl</groupId>
+    <artifactId>huno</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Xunohono</name>
-    <description>Description for Xunohono</description>
+    <name>Huno</name>
+    <description>Description for Huno</description>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -31,7 +31,7 @@
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <start-class>dev.risav.uno.XunohonoApp</start-class>
+        <start-class>dev.risav.gapl.HunoApp</start-class>
         <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx1G</argLine>
         <m2e.apt.activation>jdt_apt</m2e.apt.activation>
         <run.addResources>false</run.addResources>
@@ -41,7 +41,6 @@
         <checkstyle.version>10.15.0</checkstyle.version>
         <checksum-maven-plugin.version>1.11</checksum-maven-plugin.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
-        <cucumber-bom.version>7.16.1</cucumber-bom.version>
         <feign-reactor-bom.version>4.0.3</feign-reactor-bom.version>
         <frontend-maven-plugin.version>1.15.0</frontend-maven-plugin.version>
         <git-commit-id-maven-plugin.version>8.0.2</git-commit-id-maven-plugin.version>
@@ -82,7 +81,6 @@
         <spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
         <spring-cloud-dependencies.version>2023.0.1</spring-cloud-dependencies.version>
         <springdoc-openapi-starter-webflux-api.version>2.5.0</springdoc-openapi-starter-webflux-api.version>
-        <testng.version>7.10.0</testng.version>
     </properties>
 
     <dependencyManagement>
@@ -91,13 +89,6 @@
                 <groupId>com.playtika.reactivefeign</groupId>
                 <artifactId>feign-reactor-bom</artifactId>
                 <version>${feign-reactor-bom.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>io.cucumber</groupId>
-                <artifactId>cucumber-bom</artifactId>
-                <version>${cucumber-bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -148,11 +139,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -199,10 +190,6 @@
             <artifactId>jackson-module-jaxb-annotations</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.playtika.reactivefeign</groupId>
             <artifactId>feign-reactor-cloud</artifactId>
         </dependency>
@@ -236,21 +223,6 @@
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
             <version>${commons-beanutils.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit-platform-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-spring</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
@@ -297,11 +269,6 @@
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-console</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.liquibase</groupId>
@@ -384,12 +351,6 @@
             <artifactId>testcontainers</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -406,10 +367,6 @@
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -528,7 +485,7 @@
                             </platforms>
                         </from>
                         <to>
-                            <image>xunohono:latest</image>
+                            <image>huno:latest</image>
                         </to>
                         <container>
                             <entrypoint>
@@ -896,7 +853,6 @@
                         <verbose>true</verbose>
                         <logging>debug</logging>
                         <contexts>!test</contexts>
-                        <diffExcludeObjects>oauth_access_token, oauth_approvals, oauth_client_details, oauth_client_token, oauth_code, oauth_refresh_token</diffExcludeObjects>
                     </configuration>
                     <dependencies>
                         <dependency>
@@ -937,14 +893,14 @@
                             <configuration>
                                 <inputSpec>${project.basedir}/src/main/resources/swagger/api.yml</inputSpec>
                                 <generatorName>spring</generatorName>
-                                <apiPackage>dev.risav.uno.web.api</apiPackage>
-                                <modelPackage>dev.risav.uno.service.api.dto</modelPackage>
+                                <apiPackage>dev.risav.gapl.web.api</apiPackage>
+                                <modelPackage>dev.risav.gapl.service.api.dto</modelPackage>
                                 <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
                                 <skipValidateSpec>false</skipValidateSpec>
                                 <configOptions>
                                     <reactive>true</reactive>
                                     <delegatePattern>true</delegatePattern>
-                                    <title>xunohono</title>
+                                    <title>huno</title>
                                     <useSpringBoot3>true</useSpringBoot3>
                                 </configOptions>
                             </configuration>
@@ -976,8 +932,8 @@
                 <!-- default Spring profiles -->
                 <spring.profiles.active>dev${profile.tls}${profile.no-liquibase}</spring.profiles.active>
                 <profile.test>testdev</profile.test>
-                <liquibase-plugin.url>jdbc:postgresql://localhost:5432/xunohono</liquibase-plugin.url>
-                <liquibase-plugin.username>xunohono</liquibase-plugin.username>
+                <liquibase-plugin.url>jdbc:postgresql://localhost:5432/huno</liquibase-plugin.url>
+                <liquibase-plugin.username>huno</liquibase-plugin.username>
                 <liquibase-plugin.password/>
             </properties>
             <dependencies>
@@ -1093,8 +1049,8 @@
                 <!-- default Spring profiles -->
                 <spring.profiles.active>prod${profile.api-docs}${profile.tls}${profile.e2e}${profile.no-liquibase}</spring.profiles.active>
                 <profile.test>testprod</profile.test>
-                <liquibase-plugin.url>jdbc:postgresql://localhost:5432/xunohono</liquibase-plugin.url>
-                <liquibase-plugin.username>xunohono</liquibase-plugin.username>
+                <liquibase-plugin.url>jdbc:postgresql://localhost:5432/huno</liquibase-plugin.url>
+                <liquibase-plugin.username>huno</liquibase-plugin.username>
                 <liquibase-plugin.password/>
             </properties>
             <build>

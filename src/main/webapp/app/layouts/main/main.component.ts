@@ -5,6 +5,7 @@ import dayjs from 'dayjs/esm';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { AppPageTitleStrategy } from 'app/app-page-title-strategy';
+import FindLanguageFromKeyPipe from 'app/shared/language/find-language-from-key.pipe';
 import FooterComponent from '../footer/footer.component';
 import PageRibbonComponent from '../profiles/page-ribbon.component';
 
@@ -21,6 +22,7 @@ export default class MainComponent implements OnInit {
   private router = inject(Router);
   private appPageTitleStrategy = inject(AppPageTitleStrategy);
   private accountService = inject(AccountService);
+  private findLanguageFromKeyPipe = inject(FindLanguageFromKeyPipe);
   private translateService = inject(TranslateService);
   private rootRenderer = inject(RendererFactory2);
 
@@ -36,6 +38,16 @@ export default class MainComponent implements OnInit {
       this.appPageTitleStrategy.updateTitle(this.router.routerState.snapshot);
       dayjs.locale(langChangeEvent.lang);
       this.renderer.setAttribute(document.querySelector('html'), 'lang', langChangeEvent.lang);
+
+      this.updatePageDirection();
     });
+  }
+
+  private updatePageDirection(): void {
+    this.renderer.setAttribute(
+      document.querySelector('html'),
+      'dir',
+      this.findLanguageFromKeyPipe.isRTL(this.translateService.currentLang) ? 'rtl' : 'ltr',
+    );
   }
 }

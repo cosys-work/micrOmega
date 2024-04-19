@@ -18,7 +18,7 @@ logging:
     ROOT: DEBUG
     tech.jhipster: DEBUG
     org.hibernate.SQL: DEBUG
-    dev.risav.uno: DEBUG
+    dev.risav.gapl: DEBUG
 
 management:
   zipkin: # Use the "zipkin" Maven profile to have the Spring Cloud Zipkin dependencies
@@ -57,12 +57,17 @@ spring:
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
-    url: jdbc:postgresql://localhost:5432/xunohono
+    url: jdbc:postgresql://localhost:5432/huno
+  mail:
+    host: localhost
+    port: 25
+    username:
+    password:
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/xunohono
-    username: xunohono
+    url: r2dbc:postgresql://localhost:5432/huno
+    username: huno
     password:
   thymeleaf:
     cache: false
@@ -94,6 +99,16 @@ jhipster:
     exposed-headers: 'Authorization,Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params'
     allow-credentials: true
     max-age: 1800
+  security:
+    authentication:
+      jwt:
+        # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
+        base64-secret: MjdhNTMwMzk2YmExMmM2OTU4NjM4ZjA0ZWI1ODBjZDc0M2FhZWFhYzE5MzZmMGJmNDNiMWVjNDE4YmM5NjdmYmFmMzhiMGI1MjI2YTAwYmQyMWZkYWZjMWQxNzk5ZGRmOWExMGRjOTcwZTJlNjFkMWViN2Y5OWYyZTE5NTI1ZTI=
+        # Token is valid 24 hours
+        token-validity-in-seconds: 86400
+        token-validity-in-seconds-for-remember-me: 2592000
+  mail: # specific JHipster mail property, for standard properties see MailProperties
+    base-url: http://127.0.0.1:8848
   logging:
     use-json-format: false # By default, logs are not in Json format
     logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration

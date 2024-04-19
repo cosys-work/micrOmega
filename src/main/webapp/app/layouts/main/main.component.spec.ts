@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { TranslateModule, TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 import { AccountService } from 'app/core/auth/account.service';
+import FindLanguageFromKeyPipe from 'app/shared/language/find-language-from-key.pipe';
 
 import { AppPageTitleStrategy } from 'app/app-page-title-strategy';
 import MainComponent from './main.component';
@@ -18,6 +19,7 @@ describe('MainComponent', () => {
   let fixture: ComponentFixture<MainComponent>;
   let titleService: Title;
   let translateService: TranslateService;
+  let findLanguageFromKeyPipe: FindLanguageFromKeyPipe;
   let mockAccountService: AccountService;
   let ngZone: NgZone;
   const routerState: any = { snapshot: { root: { data: {} } } };
@@ -27,7 +29,7 @@ describe('MainComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), MainComponent],
-      providers: [Title, AccountService, { provide: TitleStrategy, useClass: AppPageTitleStrategy }],
+      providers: [Title, FindLanguageFromKeyPipe, AccountService, { provide: TitleStrategy, useClass: AppPageTitleStrategy }],
     })
       .overrideTemplate(MainComponent, '')
       .compileComponents();
@@ -38,6 +40,7 @@ describe('MainComponent', () => {
     comp = fixture.componentInstance;
     titleService = TestBed.inject(Title);
     translateService = TestBed.inject(TranslateService);
+    findLanguageFromKeyPipe = TestBed.inject(FindLanguageFromKeyPipe);
     mockAccountService = TestBed.inject(AccountService);
     mockAccountService.identity = jest.fn(() => of(null));
     mockAccountService.getAuthenticationState = jest.fn(() => of(null));
@@ -212,16 +215,20 @@ describe('MainComponent', () => {
       comp.ngOnInit();
 
       // WHEN
+      findLanguageFromKeyPipe.isRTL = jest.fn(() => false);
       translateService.onLangChange.emit({ lang: 'lang1', translations: null });
 
       // THEN
       expect(document.querySelector('html')?.getAttribute('lang')).toEqual('lang1');
+      expect(document.querySelector('html')?.getAttribute('dir')).toEqual('ltr');
 
       // WHEN
+      findLanguageFromKeyPipe.isRTL = jest.fn(() => true);
       translateService.onLangChange.emit({ lang: 'lang2', translations: null });
 
       // THEN
       expect(document.querySelector('html')?.getAttribute('lang')).toEqual('lang2');
+      expect(document.querySelector('html')?.getAttribute('dir')).toEqual('rtl');
     });
   });
 });

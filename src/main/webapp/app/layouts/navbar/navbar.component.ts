@@ -31,9 +31,10 @@ export default class NavbarComponent implements OnInit {
   version = '';
   account = inject(AccountService).trackCurrentAccount();
   entitiesNavbarItems: NavbarItem[] = [];
-  docsEntityNavbarItems: NavbarItem[] = [];
-  patientsEntityNavbarItems: NavbarItem[] = [];
-  customersEntityNavbarItems: NavbarItem[] = [];
+  patientEntityNavbarItems: NavbarItem[] = [];
+  doctorEntityNavbarItems: NavbarItem[] = [];
+  staffEntityNavbarItems: NavbarItem[] = [];
+  techleadEntityNavbarItems: NavbarItem[] = [];
 
   private loginService = inject(LoginService);
   private translateService = inject(TranslateService);
@@ -71,7 +72,7 @@ export default class NavbarComponent implements OnInit {
   }
 
   login(): void {
-    this.loginService.login();
+    this.router.navigate(['/login']);
   }
 
   logout(): void {
@@ -86,52 +87,68 @@ export default class NavbarComponent implements OnInit {
 
   loadMicrofrontendsEntities(): void {
     // Lazy load microfrontend entities.
-    loadNavbarItems('docs').then(
+    loadNavbarItems('patient').then(
       async items => {
-        this.docsEntityNavbarItems = items;
+        this.patientEntityNavbarItems = items;
         try {
-          const LazyTranslationModule = await loadTranslationModule('docs');
+          const LazyTranslationModule = await loadTranslationModule('patient');
           createNgModule(LazyTranslationModule, this.injector);
         } catch (error) {
           // eslint-disable-next-line no-console
-          console.log('Error loading docs translation module', error);
+          console.log('Error loading patient translation module', error);
         }
       },
       error => {
         // eslint-disable-next-line no-console
-        console.log('Error loading docs entities', error);
+        console.log('Error loading patient entities', error);
       },
     );
-    loadNavbarItems('patients').then(
+    loadNavbarItems('doctor').then(
       async items => {
-        this.patientsEntityNavbarItems = items;
+        this.doctorEntityNavbarItems = items;
         try {
-          const LazyTranslationModule = await loadTranslationModule('patients');
+          const LazyTranslationModule = await loadTranslationModule('doctor');
           createNgModule(LazyTranslationModule, this.injector);
         } catch (error) {
           // eslint-disable-next-line no-console
-          console.log('Error loading patients translation module', error);
+          console.log('Error loading doctor translation module', error);
         }
       },
       error => {
         // eslint-disable-next-line no-console
-        console.log('Error loading patients entities', error);
+        console.log('Error loading doctor entities', error);
       },
     );
-    loadNavbarItems('customers').then(
+    loadNavbarItems('staff').then(
       async items => {
-        this.customersEntityNavbarItems = items;
+        this.staffEntityNavbarItems = items;
         try {
-          const LazyTranslationModule = await loadTranslationModule('customers');
+          const LazyTranslationModule = await loadTranslationModule('staff');
           createNgModule(LazyTranslationModule, this.injector);
         } catch (error) {
           // eslint-disable-next-line no-console
-          console.log('Error loading customers translation module', error);
+          console.log('Error loading staff translation module', error);
         }
       },
       error => {
         // eslint-disable-next-line no-console
-        console.log('Error loading customers entities', error);
+        console.log('Error loading staff entities', error);
+      },
+    );
+    loadNavbarItems('techlead').then(
+      async items => {
+        this.techleadEntityNavbarItems = items;
+        try {
+          const LazyTranslationModule = await loadTranslationModule('techlead');
+          createNgModule(LazyTranslationModule, this.injector);
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.log('Error loading techlead translation module', error);
+        }
+      },
+      error => {
+        // eslint-disable-next-line no-console
+        console.log('Error loading techlead entities', error);
       },
     );
   }

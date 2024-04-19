@@ -1,8 +1,8 @@
-<nav data-cy="navbar" class="navbar navbar-light navbar-expand-md bg-light">
+<nav data-cy="navbar" class="navbar navbar-dark navbar-expand-md bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
       <span class="logo-img"></span>
-      <span class="navbar-title" jhiTranslate="global.title">Xunohono</span>
+      <span class="navbar-title" jhiTranslate="global.title">Huno</span>
       <span class="navbar-version">{{ version }}</span>
     </a>
     <a
@@ -43,31 +43,12 @@
               </span>
             </a>
             <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
-              @if (docsEntityNavbarItems.length === 0) {
+              @if (patientEntityNavbarItems.length === 0) {
                 <li>
-                  <span class="dropdown-item">Failed to load docs entities</span>
+                  <span class="dropdown-item">Failed to load patient entities</span>
                 </li>
               }
-              @for (entityNavbarItem of docsEntityNavbarItems; track $index) {
-                <li>
-                  <a
-                    class="dropdown-item"
-                    [routerLink]="entityNavbarItem.route"
-                    routerLinkActive="active"
-                    [routerLinkActiveOptions]="{ exact: true }"
-                    (click)="collapseNavbar()"
-                  >
-                    <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                    <span [jhiTranslate]="entityNavbarItem.translationKey">{{ entityNavbarItem.name }}</span>
-                  </a>
-                </li>
-              }
-              @if (patientsEntityNavbarItems.length === 0) {
-                <li>
-                  <span class="dropdown-item">Failed to load patients entities</span>
-                </li>
-              }
-              @for (entityNavbarItem of patientsEntityNavbarItems; track $index) {
+              @for (entityNavbarItem of patientEntityNavbarItems; track $index) {
                 <li>
                   <a
                     class="dropdown-item"
@@ -81,12 +62,50 @@
                   </a>
                 </li>
               }
-              @if (customersEntityNavbarItems.length === 0) {
+              @if (doctorEntityNavbarItems.length === 0) {
                 <li>
-                  <span class="dropdown-item">Failed to load customers entities</span>
+                  <span class="dropdown-item">Failed to load doctor entities</span>
                 </li>
               }
-              @for (entityNavbarItem of customersEntityNavbarItems; track $index) {
+              @for (entityNavbarItem of doctorEntityNavbarItems; track $index) {
+                <li>
+                  <a
+                    class="dropdown-item"
+                    [routerLink]="entityNavbarItem.route"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    (click)="collapseNavbar()"
+                  >
+                    <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                    <span [jhiTranslate]="entityNavbarItem.translationKey">{{ entityNavbarItem.name }}</span>
+                  </a>
+                </li>
+              }
+              @if (staffEntityNavbarItems.length === 0) {
+                <li>
+                  <span class="dropdown-item">Failed to load staff entities</span>
+                </li>
+              }
+              @for (entityNavbarItem of staffEntityNavbarItems; track $index) {
+                <li>
+                  <a
+                    class="dropdown-item"
+                    [routerLink]="entityNavbarItem.route"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    (click)="collapseNavbar()"
+                  >
+                    <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                    <span [jhiTranslate]="entityNavbarItem.translationKey">{{ entityNavbarItem.name }}</span>
+                  </a>
+                </li>
+              }
+              @if (techleadEntityNavbarItems.length === 0) {
+                <li>
+                  <span class="dropdown-item">Failed to load techlead entities</span>
+                </li>
+              }
+              @for (entityNavbarItem of techleadEntityNavbarItems; track $index) {
                 <li>
                   <a
                     class="dropdown-item"
@@ -136,6 +155,12 @@
               <a class="dropdown-item" routerLink="/admin/gateway" routerLinkActive="active" (click)="collapseNavbar()">
                 <fa-icon icon="road" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.admin.gateway">Gateway</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
+                <fa-icon icon="users" [fixedWidth]="true"></fa-icon>
+                <span jhiTranslate="global.menu.admin.userManagement">User management</span>
               </a>
             </li>
             <li>
@@ -217,6 +242,30 @@
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
             @if (account() !== null) {
               <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/account/settings"
+                  routerLinkActive="active"
+                  (click)="collapseNavbar()"
+                  data-cy="settings"
+                >
+                  <fa-icon icon="wrench" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.account.settings">Settings</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/account/password"
+                  routerLinkActive="active"
+                  (click)="collapseNavbar()"
+                  data-cy="passwordItem"
+                >
+                  <fa-icon icon="lock" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.account.password">Password</span>
+                </a>
+              </li>
+              <li>
                 <a class="dropdown-item" (click)="logout()" id="logout" data-cy="logout">
                   <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
                   <span jhiTranslate="global.menu.account.logout">Sign out</span>
@@ -227,6 +276,18 @@
                 <a class="dropdown-item" (click)="login()" id="login" data-cy="login">
                   <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
                   <span jhiTranslate="global.menu.account.login">Sign in</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/account/register"
+                  routerLinkActive="active"
+                  (click)="collapseNavbar()"
+                  data-cy="register"
+                >
+                  <fa-icon icon="user-plus" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.account.register">Register</span>
                 </a>
               </li>
             }

@@ -1,2 +1,2 @@
-org.springframework.test.context.ContextCustomizerFactory = dev.risav.uno.\
+org.springframework.test.context.ContextCustomizerFactory = dev.risav.gapl.\
     config.SqlTestContainersSpringContextCustomizerFactory

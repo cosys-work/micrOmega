@@ -3,6 +3,7 @@ const { merge } = require('webpack-merge');
 const path = require('path');
 const { hashElement } = require('folder-hash');
 const MergeJsonWebpackPlugin = require('merge-jsons-webpack-plugin');
+const postcssRTLCSS = require('postcss-rtlcss');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const WebpackNotifierPlugin = require('webpack-notifier');
@@ -30,7 +31,7 @@ module.exports = async (config, options, targetOptions) => {
         },
       }),
       new WebpackNotifierPlugin({
-        title: 'Xunohono',
+        title: 'Huno',
         contentImage: path.join(__dirname, 'logo-jhipster.png'),
       }),
     );
@@ -108,6 +109,20 @@ module.exports = async (config, options, targetOptions) => {
     config.plugins.push(new CopyWebpackPlugin({ patterns }));
   }
 
+  const scssRule = config.module.rules.find(x => x.test && x.test.toString().includes('scss'));
+  const uses = scssRule.rules.flatMap(r => r.use || r.oneOf.flatMap(o => o.use));
+  const postcssLoaderOptions = uses.filter(u => u.loader.includes('postcss-loader')).map(u => u.options);
+  postcssLoaderOptions.forEach(options => {
+    const generateOptions = options.postcssOptions;
+    options.postcssOptions = loader => {
+      const postcssOptions = generateOptions(loader);
+      postcssOptions.plugins.push(postcssRTLCSS());
+      return postcssOptions;
+    };
+    // https://github.com/angular/angular-cli/blob/4b9199d97f3bcb10710b5049b04d8a04436e2dd4/packages/angular_devkit/build_angular/src/webpack/configs/styles.ts#L201-L202
+    options.postcssOptions.config = false;
+  });
+
   config.plugins.push(
     new webpack.DefinePlugin({
       I18N_HASH: JSON.stringify(languagesHash.hash),
@@ -125,21 +140,52 @@ module.exports = async (config, options, targetOptions) => {
         groupBy: [
           { pattern: './src/main/webapp/i18n/en/*.json', fileName: './i18n/en.json' },
           { pattern: './src/main/webapp/i18n/al/*.json', fileName: './i18n/al.json' },
+          { pattern: './src/main/webapp/i18n/ar-ly/*.json', fileName: './i18n/ar-ly.json' },
+          { pattern: './src/main/webapp/i18n/hy/*.json', fileName: './i18n/hy.json' },
+          { pattern: './src/main/webapp/i18n/az-Latn-az/*.json', fileName: './i18n/az-Latn-az.json' },
+          { pattern: './src/main/webapp/i18n/by/*.json', fileName: './i18n/by.json' },
           { pattern: './src/main/webapp/i18n/bn/*.json', fileName: './i18n/bn.json' },
           { pattern: './src/main/webapp/i18n/bg/*.json', fileName: './i18n/bg.json' },
+          { pattern: './src/main/webapp/i18n/ca/*.json', fileName: './i18n/ca.json' },
+          { pattern: './src/main/webapp/i18n/hr/*.json', fileName: './i18n/hr.json' },
+          { pattern: './src/main/webapp/i18n/cs/*.json', fileName: './i18n/cs.json' },
           { pattern: './src/main/webapp/i18n/da/*.json', fileName: './i18n/da.json' },
           { pattern: './src/main/webapp/i18n/nl/*.json', fileName: './i18n/nl.json' },
+          { pattern: './src/main/webapp/i18n/et/*.json', fileName: './i18n/et.json' },
+          { pattern: './src/main/webapp/i18n/fa/*.json', fileName: './i18n/fa.json' },
           { pattern: './src/main/webapp/i18n/fi/*.json', fileName: './i18n/fi.json' },
           { pattern: './src/main/webapp/i18n/fr/*.json', fileName: './i18n/fr.json' },
+          { pattern: './src/main/webapp/i18n/gl/*.json', fileName: './i18n/gl.json' },
           { pattern: './src/main/webapp/i18n/de/*.json', fileName: './i18n/de.json' },
           { pattern: './src/main/webapp/i18n/el/*.json', fileName: './i18n/el.json' },
           { pattern: './src/main/webapp/i18n/hi/*.json', fileName: './i18n/hi.json' },
+          { pattern: './src/main/webapp/i18n/hu/*.json', fileName: './i18n/hu.json' },
+          { pattern: './src/main/webapp/i18n/id/*.json', fileName: './i18n/id.json' },
+          { pattern: './src/main/webapp/i18n/it/*.json', fileName: './i18n/it.json' },
+          { pattern: './src/main/webapp/i18n/ja/*.json', fileName: './i18n/ja.json' },
+          { pattern: './src/main/webapp/i18n/ko/*.json', fileName: './i18n/ko.json' },
+          { pattern: './src/main/webapp/i18n/mr/*.json', fileName: './i18n/mr.json' },
+          { pattern: './src/main/webapp/i18n/my/*.json', fileName: './i18n/my.json' },
+          { pattern: './src/main/webapp/i18n/pl/*.json', fileName: './i18n/pl.json' },
+          { pattern: './src/main/webapp/i18n/pt-br/*.json', fileName: './i18n/pt-br.json' },
+          { pattern: './src/main/webapp/i18n/pt-pt/*.json', fileName: './i18n/pt-pt.json' },
           { pattern: './src/main/webapp/i18n/pa/*.json', fileName: './i18n/pa.json' },
+          { pattern: './src/main/webapp/i18n/ro/*.json', fileName: './i18n/ro.json' },
+          { pattern: './src/main/webapp/i18n/ru/*.json', fileName: './i18n/ru.json' },
+          { pattern: './src/main/webapp/i18n/sk/*.json', fileName: './i18n/sk.json' },
+          { pattern: './src/main/webapp/i18n/sr/*.json', fileName: './i18n/sr.json' },
           { pattern: './src/main/webapp/i18n/si/*.json', fileName: './i18n/si.json' },
+          { pattern: './src/main/webapp/i18n/es/*.json', fileName: './i18n/es.json' },
+          { pattern: './src/main/webapp/i18n/sv/*.json', fileName: './i18n/sv.json' },
+          { pattern: './src/main/webapp/i18n/tr/*.json', fileName: './i18n/tr.json' },
           { pattern: './src/main/webapp/i18n/ta/*.json', fileName: './i18n/ta.json' },
           { pattern: './src/main/webapp/i18n/te/*.json', fileName: './i18n/te.json' },
           { pattern: './src/main/webapp/i18n/th/*.json', fileName: './i18n/th.json' },
+          { pattern: './src/main/webapp/i18n/ua/*.json', fileName: './i18n/ua.json' },
+          { pattern: './src/main/webapp/i18n/uz-Cyrl-uz/*.json', fileName: './i18n/uz-Cyrl-uz.json' },
+          { pattern: './src/main/webapp/i18n/uz-Latn-uz/*.json', fileName: './i18n/uz-Latn-uz.json' },
           { pattern: './src/main/webapp/i18n/vi/*.json', fileName: './i18n/vi.json' },
+          { pattern: './src/main/webapp/i18n/kr-Latn-kr/*.json', fileName: './i18n/kr-Latn-kr.json' },
           // jhipster-needle-i18n-language-webpack - JHipster will add/remove languages in this array
         ],
       },
